@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>长夜已个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="长夜已个人博客">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="长夜已个人博客">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="长夜已个人博客">
+  
+    <link rel="alternate" href="/atom.xml" title="长夜已个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">长夜已个人博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-ldap-java-连接demo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/04/ldap-java-连接demo/" class="article-date">
+  <time datetime="2019-05-04T14:06:23.000Z" itemprop="datePublished">2019-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/04/ldap-java-连接demo/">ldap java 连接demo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简单的连接demo"><a href="#简单的连接demo" class="headerlink" title="简单的连接demo"></a>简单的连接demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class LdapDemo &#123;</span><br><span class="line">    public static void main(String[] args) throws NamingException &#123;</span><br><span class="line">        String ldapUrl = &quot;ldap://192.168.31.178:389/&quot;;</span><br><span class="line"></span><br><span class="line">        Hashtable&lt;String, String&gt; env = new Hashtable&lt;&gt;(4);</span><br><span class="line">        env.put(Context.INITIAL_CONTEXT_FACTORY, &quot;com.sun.jndi.ldap.LdapCtxFactory&quot;);</span><br><span class="line">        //服务地址</span><br><span class="line">        env.put(Context.PROVIDER_URL, ldapUrl);</span><br><span class="line">        //验证方式，使用简单的账户密码方式</span><br><span class="line">        env.put(Context.SECURITY_AUTHENTICATION, &quot;simple&quot;);</span><br><span class="line">        //dn，这里是指定用户的dn,也可以使用管理员的dn，如：cn=admin,dc=changyeyi,dc=com,其实就是一个完整路径</span><br><span class="line"></span><br><span class="line">        env.put(Context.SECURITY_PRINCIPAL, &quot;uid=changyeyi,ou=People,dc=changyeyi,dc=com&quot;);</span><br><span class="line"></span><br><span class="line">        //密码</span><br><span class="line">        env.put(Context.SECURITY_CREDENTIALS, &quot;changyeyi&quot;);</span><br><span class="line">        //这一步没报错，表示连接成功，也就验证了账号</span><br><span class="line">        DirContext ctx =  new InitialDirContext(env);</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LDAPHelper"><a href="#LDAPHelper" class="headerlink" title="LDAPHelper"></a>LDAPHelper</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">public class LDAPHelper &#123;</span><br><span class="line">    /**</span><br><span class="line">     * LDAP可以理解为一个多级目录，这里，表示要连接到那个具体的目录</span><br><span class="line">     */</span><br><span class="line">    private final String baseDn = &quot;ou=People,dc=changyeyi,dc=com&quot;;</span><br><span class="line"></span><br><span class="line">    private LdapContext ctx = null;</span><br><span class="line">    private final Control[] connCtls = null;</span><br><span class="line"></span><br><span class="line">    private void connect() &#123;</span><br><span class="line">        Hashtable&lt;String, String&gt; env = new Hashtable&lt;&gt;();</span><br><span class="line">        String factory = &quot;com.sun.jndi.ldap.LdapCtxFactory&quot;;</span><br><span class="line">        env.put(Context.INITIAL_CONTEXT_FACTORY, factory);</span><br><span class="line">        String url = &quot;ldap://192.168.31.178:389/&quot;;</span><br><span class="line"></span><br><span class="line">        env.put(Context.PROVIDER_URL, url + baseDn);</span><br><span class="line">        env.put(Context.SECURITY_AUTHENTICATION, &quot;simple&quot;);</span><br><span class="line">        String root = &quot;cn=admin,dc=changyeyi,dc=com&quot;;</span><br><span class="line"></span><br><span class="line">        //管理员dn</span><br><span class="line">        env.put(Context.SECURITY_PRINCIPAL, root);</span><br><span class="line">        // 管理员密码</span><br><span class="line">        env.put(Context.SECURITY_CREDENTIALS, &quot;123456&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            ctx = new InitialLdapContext(env, connCtls);</span><br><span class="line">            System.out.println( &quot;连接成功&quot; );</span><br><span class="line">        &#125; catch (javax.naming.AuthenticationException e) &#123;</span><br><span class="line">            System.out.println(&quot;连接失败：&quot;);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            System.out.println(&quot;连接出错：&quot;);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void closeContext()&#123;</span><br><span class="line">        if (ctx != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                ctx.close();</span><br><span class="line">            &#125;</span><br><span class="line">            catch (NamingException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * dn就是目标名字+当前目录名字</span><br><span class="line">     */</span><br><span class="line">    private String getUserDN(String uid) &#123;</span><br><span class="line">        String userDN = &quot;&quot;;</span><br><span class="line">        connect();</span><br><span class="line">        try &#123;</span><br><span class="line">            SearchControls constraints = new SearchControls();</span><br><span class="line">            constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);</span><br><span class="line">            //第一个参数是从哪个目录下开始查，因为连接的url里已经指定了ou=People,dc=gosun,dc=com，所以这里填&quot;&quot;即可</span><br><span class="line">            //第二个参数是查询条件，uid、email等，都是ldap中存放的参数</span><br><span class="line">            NamingEnumeration&lt;SearchResult&gt; en = ctx.search(&quot;&quot;, &quot;uid=&quot; + uid, constraints);</span><br><span class="line">            if (en == null || !en.hasMoreElements()) &#123;</span><br><span class="line">                System.out.println(&quot;未找到该用户&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            while (en != null &amp;&amp; en.hasMoreElements()) &#123;</span><br><span class="line">                SearchResult obj = en.nextElement();</span><br><span class="line">                if (obj != null) &#123;</span><br><span class="line">                    SearchResult si = obj;</span><br><span class="line">                    userDN += si.getName();</span><br><span class="line">                    userDN += &quot;,&quot; + baseDn;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    System.out.println((Object) null);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            System.out.println(&quot;查找用户时产生异常。&quot;);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return userDN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过uid获取dn,然后连接验证</span><br><span class="line">     */</span><br><span class="line">    public boolean authentication(String uid, String password) &#123;</span><br><span class="line">        boolean valide = false;</span><br><span class="line">        String userDN = getUserDN(uid);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, userDN);</span><br><span class="line">            ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);</span><br><span class="line">            ctx.reconnect(connCtls);</span><br><span class="line">            System.out.println(userDN + &quot; 验证通过&quot;);</span><br><span class="line">            valide = true;</span><br><span class="line">        &#125; catch (AuthenticationException e) &#123;</span><br><span class="line">            System.out.println(userDN + &quot; 验证失败&quot;);</span><br><span class="line">            System.out.println(e.toString());</span><br><span class="line">        &#125; catch (NamingException e) &#123;</span><br><span class="line">            System.out.println(userDN + &quot; 验证失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        closeContext();</span><br><span class="line">        return valide;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean addUser(String usr, String pwd,String uid,String description) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            connect();</span><br><span class="line">            BasicAttributes attrsbu = new BasicAttributes();</span><br><span class="line">            BasicAttribute objclassSet = new BasicAttribute(&quot;objectclass&quot;);</span><br><span class="line">            objclassSet.add(&quot;inetOrgPerson&quot;);</span><br><span class="line">            attrsbu.put(objclassSet);</span><br><span class="line">            attrsbu.put(&quot;sn&quot;, usr);</span><br><span class="line">            attrsbu.put(&quot;cn&quot;, usr);</span><br><span class="line">            attrsbu.put(&quot;uid&quot;, uid);</span><br><span class="line">            attrsbu.put(&quot;userPassword&quot;, pwd);</span><br><span class="line">            attrsbu.put(&quot;description&quot;, description);</span><br><span class="line">            //这里指定目录名字，可以用uid=/cn=，如uid=changyeyi,或者cn=yaoji</span><br><span class="line">            ctx.createSubcontext(&quot;uid=&quot;+uid+&quot;&quot;, attrsbu);</span><br><span class="line"></span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (NamingException ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        closeContext();</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        LDAPHelper ldap = new LDAPHelper();</span><br><span class="line">        /**</span><br><span class="line">         * 用户认证</span><br><span class="line">         */</span><br><span class="line"></span><br><span class="line">        /*if(ldap.authentication(&quot;changyeyi&quot;, &quot;changyeyi&quot;))&#123;</span><br><span class="line">            System.out.println( &quot;该用户认证成功&quot; );</span><br><span class="line">        &#125;*/</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 用户添加</span><br><span class="line">         */</span><br><span class="line">        ldap.addUser(&quot;emma&quot;,&quot;emma&quot;,&quot;emma_uid&quot;,&quot;测试&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/04/ldap-java-连接demo/" data-id="ck0387dw0000ewcy19xq5o0r7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LDAP/">LDAP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-OpenLdap环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/04/OpenLdap环境搭建/" class="article-date">
+  <time datetime="2019-05-04T11:58:09.000Z" itemprop="datePublished">2019-05-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/搭建记录/">搭建记录</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/04/OpenLdap环境搭建/">LDAP环境搭建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>OpenLdap是ldap的开源实现；</p>
+<p>Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息；</p>
+<p>目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以十分方便的实现这些工具的账号统一性</p>
+<h4 id="简称说明"><a href="#简称说明" class="headerlink" title="简称说明"></a>简称说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">o - organization（组织公司）</span><br><span class="line">ou - organization unit（组织单位-部门）</span><br><span class="line">c - country name（国家）</span><br><span class="line">dc - domain component（域名）</span><br><span class="line">sn - suer name（真实名称）</span><br><span class="line">cn - common name（常用名称）</span><br><span class="line">dn - distinguished name（唯一标识符）</span><br></pre></td></tr></table></figure>
+<h3 id="Openldap环境搭建"><a href="#Openldap环境搭建" class="headerlink" title="Openldap环境搭建"></a>Openldap环境搭建</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul>
+<li><p>关闭防火墙</p>
+<p>systemctl stop firewalld &amp;&amp; systemctl disable firewalld</p>
+</li>
+<li><p>关闭selinux</p>
+<p>sed -i ‘/SELINUX/s/enforcing/disabled/‘ /etc/selinux/config &amp;&amp; setenforce 0</p>
+</li>
+</ul>
+<h4 id="安装-amp-配置"><a href="#安装-amp-配置" class="headerlink" title="安装&amp;配置"></a>安装&amp;配置</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools</span><br><span class="line">注：</span><br><span class="line">    版本是2.4.44，该版本已经没有了slapd.conf配置文件;</span><br></pre></td></tr></table></figure>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><ul>
+<li><p>配置管理员密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@181-181-0-10 ~]# slappasswd -s 123456</span><br><span class="line">&#123;SSHA&#125;eBaEVlbgURjbcYhrIRVhlTSOn3KHRXvP</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# vim /etc/openldap/slapd.d/cn\=config/olcDatabase\=\&#123;2\&#125;hdb.ldif</span><br><span class="line">增加管理员用户密码：</span><br><span class="line"> olcRootPW: &#123;SSHA&#125;eBaEVlbgURjbcYhrIRVhlTSOn3KHRXvP</span><br><span class="line">修改dc（dc可以为任何值，只要统一就行）:</span><br><span class="line"> olcSuffix: dc=changyeyi,dc=com</span><br><span class="line"> olcRootDN: cn=admin,dc=changyeyi,dc=com</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# vim /etc/openldap/slapd.d/cn\=config/olcDatabase\=\&#123;1\&#125;monitor.ldif</span><br><span class="line">修改read by dn.base中的cn与dc</span><br><span class="line"> olcAccess: &#123;0&#125;to * by dn.base=&quot;gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth&quot; read by dn.base=&quot;cn=admin,dc=changyeyi,dc=com&quot; read by * none</span><br><span class="line"></span><br><span class="line">[测试配置]</span><br><span class="line">[root@181-181-0-10 ~]# slaptest -u</span><br><span class="line">5cbed0ff ldif_read_file: checksum error on &quot;/etc/openldap/slapd.d/cn=config/olcDatabase=&#123;1&#125;monitor.ldif&quot;</span><br><span class="line">5cbed0ff ldif_read_file: checksum error on &quot;/etc/openldap/slapd.d/cn=config/olcDatabase=&#123;2&#125;hdb.ldif&quot;</span><br><span class="line">config file testing succeeded</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# systemctl start slapd</span><br><span class="line">注：</span><br><span class="line">    曾启动slapd服务时失败</span><br><span class="line">    异常：Unregistered Authentication Agent for unix-process:10486:230105 (system bus name :1.24, object path /org/freedesktop/PolicyKit1/AuthenticationAgent</span><br><span class="line">    重启一下就好</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置OpenLadp数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG</span><br><span class="line">chown ldap:ldap -R /var/lib/ldap</span><br><span class="line">chmod 700 -R /var/lib/ldap</span><br><span class="line">注：</span><br><span class="line">    /var/lib/ldap/就是BerkeleyDB数据库默认存储的路径;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入Schema</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif</span><br><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif</span><br><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装可视化工具LdapBrowser，官网下载直接安装就好</p>
+<ul>
+<li><p>创建连接</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg" alt></p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/63fe90d5ba5d44d993b8597f88d33499.jpg" alt></p>
+</li>
+</ul>
+</li>
+<li><p>修改migrate_common.ph文件，生成一些基础数据的ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@181-181-0-10 ~]# vim /usr/share/migrationtools/migrate_common.ph</span><br><span class="line">$DEFAULT_MAIL_DOMAIN = &quot;changyeyi.com&quot;;</span><br><span class="line">$DEFAULT_BASE = &quot;dc=changyeyi,dc=com&quot;;</span><br><span class="line">$EXTENDED_SCHEMA = 1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成基础数据的ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# /usr/share/migrationtools/migrate_base.pl &gt;base.ldif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ldapadd -x -D &quot;cn=admin,dc=changyeyi,dc=com&quot; -W -f ./base.ldif</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/87a33f004ddb4afe9f334c3d3f35f86d.jpg" alt></p>
+</li>
+<li><p>添加自定义数据</p>
+<p>openldap通过ldif文件定义需要添加数据的属性；</p>
+<ul>
+<li><p>创建ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim changyeyi.ldif</span><br><span class="line"></span><br><span class="line">dn: uid=changyeyi,ou=People,dc=changyeyi,dc=com</span><br><span class="line">uid: changyeyi</span><br><span class="line">objectClass: inetOrgPerson</span><br><span class="line">mail: changyeyi@outlook.com</span><br><span class="line">userPassword: changyeyi</span><br><span class="line">sn: Sun</span><br><span class="line">cn: changyeyi Sun</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldapadd -x -D &quot;cn=admin,dc=changyeyi,dc=com&quot; -W -f changyeyi.ldif</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/c2309a9160004b209db66260241eea06.jpg" alt></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/openldap-servers下有两个示例文件，DB_CONFIEG.example和slapd.ldif</span><br><span class="line">DB_CONFIEG.example是数据库配置的示例</span><br><span class="line">slapd.ldif是ldif文件示例</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录结构，目录名字取决于dn</span><br><span class="line">dn用了cn=changyeyi Sun,ou=People,dc=changyeyi,dc=com，目录名为cn=changyeyi Sun</span><br><span class="line">dn用了uid=changyeyi,ou=People,dc=changyeyi,dc=com，目录名为uid=changyeyi</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/c8f44f95f989412cb60c0307bd80a07c.jpg" alt></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/04/OpenLdap环境搭建/" data-id="ck0387duy0004wcy1otc1ebxm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LDAP/">LDAP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第一篇博客发布" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/28/第一篇博客发布/" class="article-date">
+  <time datetime="2019-04-28T08:55:44.000Z" itemprop="datePublished">2019-04-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/第一篇博客发布/">第一篇博客发布</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>了解完hexo+github搭建免费的个人博客过程后，以hexo+github的搭建过程做为练手，完成第一篇博客，同时记录下完整过程</p>
+<h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><p>hexo支持插件和主题的自定义，所以我们可以使用自己定义或者别人已经写好的插件或者主题来优化我们的博客展示效果；</p>
+<p>在此之前，先对我过hexo init初始化后文件夹中的目录结构做一个简单说明</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/0356357b8f6d49bc9b35f50fdd203e3d.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public: 存放生成后的静态文件</span><br><span class="line">scaffolds: 存放的是布局文件，即使用hexo new [layout] [filename]生成文件时的布局样式</span><br><span class="line">source: 存放通过hexo new [layout] [filename]生成的md文件</span><br><span class="line">themes: 存放主题</span><br><span class="line">_config.yml: 配置文件，设置远程仓库地址、主题、语言等</span><br></pre></td></tr></table></figure>
+<h4 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h4><p>hexo支持自定义主题与插件来实现更好的效果和功能，在hexo官网有一个theme中，有官方或者他人提供的已完成的主题</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/20557358609e47c29883d1a680117ba6.jpg" alt></p>
+<p>选择一个点进去,会跳转到对方的github上，将主题代码下载到hexo/themes</p>
+<p>这里使用的是Fechin的hexo-theme-diaspora主题，十分好看</p>
+<p>注：<br>    readme.md中有主题使用说明</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/c8daa44642cd4f5a874aa8997c310a19.jpg" alt></p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/59a6b3f13dee4dba92e5703d1a86ef65.jpg" alt></p>
+<h4 id="配置主题"><a href="#配置主题" class="headerlink" title="配置主题"></a>配置主题</h4><p>通过修改hexo/_config.yml，我可以配置使用的主题和一些博客信息信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title: 长夜已个人博客</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: 长夜已</span><br><span class="line">language: zh-CN        </span><br><span class="line">    ##这里的zh-CN取于hexo\themes\hexo-theme-diaspora\languages下的文件</span><br><span class="line">timezone: Asia/shanghai</span><br><span class="line">theme: hexo-theme-diaspora</span><br></pre></td></tr></table></figure>
+<h4 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h4><p><img src="http://49.234.184.9/pic/2019/09/03/b3f0a5f6843c4c4f8a31a97a9f149421.jpg" alt></p>
+<p>以上是diaspora主题目录结构，修改_config.yml，定义头部菜单、图片，以及禁用插件</p>
+<p>source放着css、img等文件，页面logo图片路径是在diaspora.css中设置的</p>
+<h3 id="创建博客"><a href="#创建博客" class="headerlink" title="创建博客"></a>创建博客</h3><h4 id="创建分类页"><a href="#创建分类页" class="headerlink" title="创建分类页"></a>创建分类页</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">创建文件：hexo new page categories</span><br><span class="line">page布局的文件会生成到source/下</span><br><span class="line">修改hexo/source/categories/index.md，指定type为categories</span><br><span class="line">    title: categories</span><br><span class="line">    date: 2019-04-28 12:37:52</span><br><span class="line">    type: &quot;categories&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="创建标签页"><a href="#创建标签页" class="headerlink" title="创建标签页"></a>创建标签页</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">创建文件：hexo new page tags</span><br><span class="line">修改</span><br><span class="line">hexo/source/tags/index.md，指定type为tags</span><br><span class="line">    title: tags</span><br><span class="line">    date: 2019-04-28 12:38:57</span><br><span class="line">    type: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="创建博客-1"><a href="#创建博客-1" class="headerlink" title="创建博客"></a>创建博客</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">创建文件：hexo new &quot;hexo+GitHub个人博客搭建&quot;</span><br><span class="line">修改Front-matter</span><br><span class="line">    title: hexo+GitHub个人博客搭建</span><br><span class="line">    date: 2019-04-27 07:51:31</span><br><span class="line">    categories:</span><br><span class="line">    - 搭建记录</span><br><span class="line">    tags:</span><br><span class="line">    - 博客</span><br><span class="line">    cover: https://ws1.sinaimg.cn/large/005LekgCly1g2ie85hpzhj31hc0u04i3.jpg</span><br></pre></td></tr></table></figure>
+<p>内容写完后</p>
+<ul>
+<li><p>hexo generate    编译生成静态文件</p>
+</li>
+<li><p>hexo generate    本地部署，查看样式</p>
+</li>
+<li><p>hexo deploy         发布到github</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/28/第一篇博客发布/" data-id="ck0387dui0000wcy14ta9stdb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客搭建/">博客搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hexo+GitHub个人博客搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/27/hexo+GitHub个人博客搭建/" class="article-date">
+  <time datetime="2019-04-26T23:51:31.000Z" itemprop="datePublished">2019-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/搭建记录/">搭建记录</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/27/hexo+GitHub个人博客搭建/">hexo+GitHub个人博客搭建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><h4 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hexo是一款快速、简洁且高效的博客框架，具有超快速度、支持Markdown、一键部署、丰富插件等优点</span><br></pre></td></tr></table></figure>
+<h4 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Node.js</span><br><span class="line">    Node.js是Hexo的运行环境</span><br><span class="line">Git</span><br><span class="line">    用于推送blog到github或者个人服务器</span><br></pre></td></tr></table></figure>
+<h4 id="Hexo安装"><a href="#Hexo安装" class="headerlink" title="Hexo安装"></a>Hexo安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">安装：</span><br><span class="line">    npm install -g hexo-cli</span><br><span class="line">初始化文件夹&lt;folder为文件夹路径&gt;：</span><br><span class="line">    hexo init &lt;folder&gt;    如：hexo init hexo</span><br><span class="line">    cd &lt;folder&gt;</span><br><span class="line">    npm install    </span><br><span class="line">安装的时候可能会出现</span><br><span class="line">    npm ERR! code Z_BUF_ERROR</span><br><span class="line">    npm ERR! errno -5</span><br><span class="line">    npm ERR! zlib: unexpected end of file</span><br><span class="line">解决方法：</span><br><span class="line">    npm cache clean --force</span><br><span class="line">或者</span><br><span class="line">    rm -rf node_modules</span><br><span class="line">    rm package-lock.json</span><br></pre></td></tr></table></figure>
+<p>初始化后文件夹</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/8eb76d4370774b9489c8dc3f53150409.jpg" alt></p>
+<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">github提供的一个免费服务GitHub Pages，GitHub Pages旨在从GitHub存储库托管个人，组织或项目页面；</span><br><span class="line">而这存储库指的是我们以[用户名.github.io]命名的仓库，也就是说，对应[用户名.github.io]仓库中的静态文件，我们可以通过域名访问到；</span><br><span class="line">如，你的github用户名为test，创建一个名为test.github.io的仓库，在其中上传一个index.html静态文件，你将可以通过https://test.github.io访问到这个文件</span><br></pre></td></tr></table></figure>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><ul>
+<li><p>创建一个名为 “用户名.github.io”的仓库</p>
+<ul>
+<li><p>如：changyeyi.github.io</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/6a08c9ffd3b940d5b2f038a5210f0a0a.jpg" alt></p>
+</li>
+<li><p>点击setting，往下滑，可以看到Github Pages的介绍说明</p>
+<ul>
+<li>you site is published at <a href="https://changyeyi.github.io/" target="_blank" rel="noopener">https://changyeyi.github.io/</a></li>
+</ul>
+<p><img src="http://49.234.184.9/pic/2019/09/03/6092d07ab651424b87a32eb1a5f44ed4.jpg" alt></p>
+</li>
+</ul>
+</li>
+<li><p>添加SSH keys 到github</p>
+<ul>
+<li><p>生成本机电脑SSH keys</p>
+<ul>
+<li><p>配置配置全局name和email</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;changyeyi&quot;</span><br><span class="line">git config --global user.email &quot;changyeyi@outlook.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成ssh keys</p>
+<ul>
+<li><p>ssh-keygen -t rsa -C “<a href="mailto:changyeyi@outlook.com" target="_blank" rel="noopener">changyeyi@outlook.com</a>“，然后全部回车即可</p>
+</li>
+<li><p>生成的ssh key会在当前用户的.ssh中的id_rsa.pub文件中</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>添加key到github</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/0011df1546434632bb03173394e550a5.jpg" alt></p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/cd0a9a67b39e4759a8c83aa2ad587eb8.jpg" alt></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="博客部署"><a href="#博客部署" class="headerlink" title="博客部署"></a>博客部署</h3><ul>
+<li><p>安装用于部署到github上的插件，注意要将路径切换到前面初始化的文件夹(hexo)后执行以下命令</p>
+<ul>
+<li>npm install hexo-deployer-git –save</li>
+</ul>
+</li>
+<li><p>修改仓库地址</p>
+<ul>
+<li><p>初始化的文件夹中，有一个_config.yml的文件，修改其中内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repository: git@github.com:changyeyi/changyeyi.github.io.git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>hexo deploy发布</p>
+</li>
+<li><p>访问<a href="https://changyeyi.github.io" target="_blank" rel="noopener">https://changyeyi.github.io</a> 即可看到hexo提供的一个hello world实例页面</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/27/hexo+GitHub个人博客搭建/" data-id="ck0387dur0002wcy10zw51i7e" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客搭建/">博客搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/搭建记录/">搭建记录</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/LDAP/">LDAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客搭建/">博客搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/LDAP/" style="font-size: 10px;">LDAP</a> <a href="/tags/博客搭建/" style="font-size: 10px;">博客搭建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/04/ldap-java-连接demo/">ldap java 连接demo</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/04/OpenLdap环境搭建/">LDAP环境搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/第一篇博客发布/">第一篇博客发布</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/27/hexo+GitHub个人博客搭建/">hexo+GitHub个人博客搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 长夜已<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

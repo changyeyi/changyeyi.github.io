@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>LDAP环境搭建 | 长夜已个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
+<meta name="keywords" content="LDAP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LDAP环境搭建">
+<meta property="og:url" content="http://yoursite.com/2019/05/04/OpenLdap环境搭建/index.html">
+<meta property="og:site_name" content="长夜已个人博客">
+<meta property="og:description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg">
+<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/63fe90d5ba5d44d993b8597f88d33499.jpg">
+<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/87a33f004ddb4afe9f334c3d3f35f86d.jpg">
+<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/c2309a9160004b209db66260241eea06.jpg">
+<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/c8f44f95f989412cb60c0307bd80a07c.jpg">
+<meta property="og:updated_time" content="2019-09-03T02:03:13.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LDAP环境搭建">
+<meta name="twitter:description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
+<meta name="twitter:image" content="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="长夜已个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">长夜已个人博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-OpenLdap环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/04/OpenLdap环境搭建/" class="article-date">
+  <time datetime="2019-05-04T11:58:09.000Z" itemprop="datePublished">2019-05-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/搭建记录/">搭建记录</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LDAP环境搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>OpenLdap是ldap的开源实现；</p>
+<p>Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息；</p>
+<p>目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以十分方便的实现这些工具的账号统一性</p>
+<h4 id="简称说明"><a href="#简称说明" class="headerlink" title="简称说明"></a>简称说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">o - organization（组织公司）</span><br><span class="line">ou - organization unit（组织单位-部门）</span><br><span class="line">c - country name（国家）</span><br><span class="line">dc - domain component（域名）</span><br><span class="line">sn - suer name（真实名称）</span><br><span class="line">cn - common name（常用名称）</span><br><span class="line">dn - distinguished name（唯一标识符）</span><br></pre></td></tr></table></figure>
+<h3 id="Openldap环境搭建"><a href="#Openldap环境搭建" class="headerlink" title="Openldap环境搭建"></a>Openldap环境搭建</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul>
+<li><p>关闭防火墙</p>
+<p>systemctl stop firewalld &amp;&amp; systemctl disable firewalld</p>
+</li>
+<li><p>关闭selinux</p>
+<p>sed -i ‘/SELINUX/s/enforcing/disabled/‘ /etc/selinux/config &amp;&amp; setenforce 0</p>
+</li>
+</ul>
+<h4 id="安装-amp-配置"><a href="#安装-amp-配置" class="headerlink" title="安装&amp;配置"></a>安装&amp;配置</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools</span><br><span class="line">注：</span><br><span class="line">    版本是2.4.44，该版本已经没有了slapd.conf配置文件;</span><br></pre></td></tr></table></figure>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><ul>
+<li><p>配置管理员密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@181-181-0-10 ~]# slappasswd -s 123456</span><br><span class="line">&#123;SSHA&#125;eBaEVlbgURjbcYhrIRVhlTSOn3KHRXvP</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# vim /etc/openldap/slapd.d/cn\=config/olcDatabase\=\&#123;2\&#125;hdb.ldif</span><br><span class="line">增加管理员用户密码：</span><br><span class="line"> olcRootPW: &#123;SSHA&#125;eBaEVlbgURjbcYhrIRVhlTSOn3KHRXvP</span><br><span class="line">修改dc（dc可以为任何值，只要统一就行）:</span><br><span class="line"> olcSuffix: dc=changyeyi,dc=com</span><br><span class="line"> olcRootDN: cn=admin,dc=changyeyi,dc=com</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# vim /etc/openldap/slapd.d/cn\=config/olcDatabase\=\&#123;1\&#125;monitor.ldif</span><br><span class="line">修改read by dn.base中的cn与dc</span><br><span class="line"> olcAccess: &#123;0&#125;to * by dn.base=&quot;gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth&quot; read by dn.base=&quot;cn=admin,dc=changyeyi,dc=com&quot; read by * none</span><br><span class="line"></span><br><span class="line">[测试配置]</span><br><span class="line">[root@181-181-0-10 ~]# slaptest -u</span><br><span class="line">5cbed0ff ldif_read_file: checksum error on &quot;/etc/openldap/slapd.d/cn=config/olcDatabase=&#123;1&#125;monitor.ldif&quot;</span><br><span class="line">5cbed0ff ldif_read_file: checksum error on &quot;/etc/openldap/slapd.d/cn=config/olcDatabase=&#123;2&#125;hdb.ldif&quot;</span><br><span class="line">config file testing succeeded</span><br><span class="line"></span><br><span class="line">[root@181-181-0-10 ~]# systemctl start slapd</span><br><span class="line">注：</span><br><span class="line">    曾启动slapd服务时失败</span><br><span class="line">    异常：Unregistered Authentication Agent for unix-process:10486:230105 (system bus name :1.24, object path /org/freedesktop/PolicyKit1/AuthenticationAgent</span><br><span class="line">    重启一下就好</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置OpenLadp数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG</span><br><span class="line">chown ldap:ldap -R /var/lib/ldap</span><br><span class="line">chmod 700 -R /var/lib/ldap</span><br><span class="line">注：</span><br><span class="line">    /var/lib/ldap/就是BerkeleyDB数据库默认存储的路径;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入Schema</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif</span><br><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif</span><br><span class="line">ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装可视化工具LdapBrowser，官网下载直接安装就好</p>
+<ul>
+<li><p>创建连接</p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg" alt></p>
+<p><img src="http://49.234.184.9/pic/2019/09/03/63fe90d5ba5d44d993b8597f88d33499.jpg" alt></p>
+</li>
+</ul>
+</li>
+<li><p>修改migrate_common.ph文件，生成一些基础数据的ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@181-181-0-10 ~]# vim /usr/share/migrationtools/migrate_common.ph</span><br><span class="line">$DEFAULT_MAIL_DOMAIN = &quot;changyeyi.com&quot;;</span><br><span class="line">$DEFAULT_BASE = &quot;dc=changyeyi,dc=com&quot;;</span><br><span class="line">$EXTENDED_SCHEMA = 1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成基础数据的ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# /usr/share/migrationtools/migrate_base.pl &gt;base.ldif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ldapadd -x -D &quot;cn=admin,dc=changyeyi,dc=com&quot; -W -f ./base.ldif</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/87a33f004ddb4afe9f334c3d3f35f86d.jpg" alt></p>
+</li>
+<li><p>添加自定义数据</p>
+<p>openldap通过ldif文件定义需要添加数据的属性；</p>
+<ul>
+<li><p>创建ldif文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim changyeyi.ldif</span><br><span class="line"></span><br><span class="line">dn: uid=changyeyi,ou=People,dc=changyeyi,dc=com</span><br><span class="line">uid: changyeyi</span><br><span class="line">objectClass: inetOrgPerson</span><br><span class="line">mail: changyeyi@outlook.com</span><br><span class="line">userPassword: changyeyi</span><br><span class="line">sn: Sun</span><br><span class="line">cn: changyeyi Sun</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldapadd -x -D &quot;cn=admin,dc=changyeyi,dc=com&quot; -W -f changyeyi.ldif</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/c2309a9160004b209db66260241eea06.jpg" alt></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/openldap-servers下有两个示例文件，DB_CONFIEG.example和slapd.ldif</span><br><span class="line">DB_CONFIEG.example是数据库配置的示例</span><br><span class="line">slapd.ldif是ldif文件示例</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录结构，目录名字取决于dn</span><br><span class="line">dn用了cn=changyeyi Sun,ou=People,dc=changyeyi,dc=com，目录名为cn=changyeyi Sun</span><br><span class="line">dn用了uid=changyeyi,ou=People,dc=changyeyi,dc=com，目录名为uid=changyeyi</span><br></pre></td></tr></table></figure>
+<p><img src="http://49.234.184.9/pic/2019/09/03/c8f44f95f989412cb60c0307bd80a07c.jpg" alt></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/04/OpenLdap环境搭建/" data-id="ck0387duy0004wcy1otc1ebxm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LDAP/">LDAP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/04/ldap-java-连接demo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ldap java 连接demo
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/28/第一篇博客发布/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第一篇博客发布</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/搭建记录/">搭建记录</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/LDAP/">LDAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客搭建/">博客搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/LDAP/" style="font-size: 10px;">LDAP</a> <a href="/tags/博客搭建/" style="font-size: 10px;">博客搭建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/04/ldap-java-连接demo/">ldap java 连接demo</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/04/OpenLdap环境搭建/">LDAP环境搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/第一篇博客发布/">第一篇博客发布</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/27/hexo+GitHub个人博客搭建/">hexo+GitHub个人博客搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 长夜已<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
