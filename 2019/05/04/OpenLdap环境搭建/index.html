@@ -1,103 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
 
-  
-  <title>LDAP环境搭建 | 长夜已个人博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
-<meta name="keywords" content="LDAP">
-<meta property="og:type" content="article">
-<meta property="og:title" content="LDAP环境搭建">
-<meta property="og:url" content="http://yoursite.com/2019/05/04/OpenLdap环境搭建/index.html">
-<meta property="og:site_name" content="长夜已个人博客">
-<meta property="og:description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg">
-<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/63fe90d5ba5d44d993b8597f88d33499.jpg">
-<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/87a33f004ddb4afe9f334c3d3f35f86d.jpg">
-<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/c2309a9160004b209db66260241eea06.jpg">
-<meta property="og:image" content="http://49.234.184.9/pic/2019/09/03/c8f44f95f989412cb60c0307bd80a07c.jpg">
-<meta property="og:updated_time" content="2019-09-03T02:03:13.938Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LDAP环境搭建">
-<meta name="twitter:description" content="简述OpenLdap是ldap的开源实现； Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息； 目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以">
-<meta name="twitter:image" content="http://49.234.184.9/pic/2019/09/03/dbf983f4374f4b35aaa10b25f2d32e56.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="长夜已个人博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LDAP环境搭建 - 长夜已个人博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="changyeyi,"> 
+    <meta name="description" content="简述OpenLdap是ldap的开源实现；
+Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP,"> 
+    <meta name="author" content="长夜已"> 
+    <link rel="alternative" href="atom.xml" title="长夜已个人博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
 </head>
 </html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">长夜已个人博客</a>
-      </h1>
-      
+<body class="loading">
+    <span id="config-title" style="display:none">长夜已个人博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://changyeyi.github.io"></a>
+    <h3 class="subtitle">LDAP环境搭建</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-OpenLdap环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/04/OpenLdap环境搭建/" class="article-date">
-  <time datetime="2019-05-04T11:58:09.000Z" itemprop="datePublished">2019-05-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/搭建记录/">搭建记录</a>
-  </div>
+    <div class="scrollbar"></div>
+</div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      LDAP环境搭建
-    </h1>
-  
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">LDAP环境搭建</h1>
+        <div class="stuff">
+            <span>五月 04, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/LDAP/">LDAP</a></li></ul>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>OpenLdap是ldap的开源实现；</p>
+
+        </div>
+        <div class="content markdown">
+            <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>OpenLdap是ldap的开源实现；</p>
 <p>Ladp(轻型目录访问协议，Lightweight Directory Access Protocol)是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息；</p>
 <p>目前我们用到的所有工具软件，基本都支持LDAP协议，如用户代码管理的gitlab，文档管理的confluence，任务管理的jira，通过LDAP，我们可以十分方便的实现这些工具的账号统一性</p>
 <h4 id="简称说明"><a href="#简称说明" class="headerlink" title="简称说明"></a>简称说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">o - organization（组织公司）</span><br><span class="line">ou - organization unit（组织单位-部门）</span><br><span class="line">c - country name（国家）</span><br><span class="line">dc - domain component（域名）</span><br><span class="line">sn - suer name（真实名称）</span><br><span class="line">cn - common name（常用名称）</span><br><span class="line">dn - distinguished name（唯一标识符）</span><br></pre></td></tr></table></figure>
@@ -155,143 +114,84 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录结构，目录名字取决于dn</span><br><span class="line">dn用了cn=changyeyi Sun,ou=People,dc=changyeyi,dc=com，目录名为cn=changyeyi Sun</span><br><span class="line">dn用了uid=changyeyi,ou=People,dc=changyeyi,dc=com，目录名为uid=changyeyi</span><br></pre></td></tr></table></figure>
 <p><img src="http://49.234.184.9/pic/2019/09/03/c8f44f95f989412cb60c0307bd80a07c.jpg" alt></p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/04/OpenLdap环境搭建/" data-id="ck0387duy0004wcy1otc1ebxm" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LDAP/">LDAP</a></li></ul>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
 
-    </footer>
-  </div>
-  
+    </div>
     
-<nav id="article-nav">
-  
-    <a href="/2019/05/04/ldap-java-连接demo/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          ldap java 连接demo
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/28/第一篇博客发布/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">第一篇博客发布</div>
-    </a>
-  
-</nav>
+</div>
 
-  
-</article>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/搭建记录/">搭建记录</a></li></ul>
     </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/LDAP/">LDAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客搭建/">博客搭建</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/LDAP/" style="font-size: 10px;">LDAP</a> <a href="/tags/博客搭建/" style="font-size: 10px;">博客搭建</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/05/04/ldap-java-连接demo/">ldap java 连接demo</a>
-          </li>
-        
-          <li>
-            <a href="/2019/05/04/OpenLdap环境搭建/">LDAP环境搭建</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/28/第一篇博客发布/">第一篇博客发布</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/27/hexo+GitHub个人博客搭建/">hexo+GitHub个人博客搭建</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 长夜已<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
+</div>
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>
